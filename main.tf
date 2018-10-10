@@ -4,15 +4,13 @@ variable "AWS_ACCESS_KEY" {
 
 variable "AWS_SECRET_KEY" {
   description = "The secret key"
-
-
-
+}
 
 provider "aws" {
-  access_key              = "${AWS_ACCESS_KEY}"
-  secret_key              = "${AWS_SECRET_KEY}"
+  access_key              = "${var.AWS_ACCESS_KEY}"
+  secret_key              = "${var.AWS_SECRET_KEY}"
   region                  = "ap-south-1"
-  profile                 = "terraform"
+  profile                 = "terraform_user"
 }
 
 variable "server_port" {
