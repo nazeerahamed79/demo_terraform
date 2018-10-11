@@ -48,22 +48,22 @@ resource "aws_security_group" "elb" {
   }
 }
 
-#resource "aws_instance" "web" {
-#  ami = "ami-0912f71e06545ad88"
-#  instance_type = "t2.micro"
-#
-#  vpc_security_group_ids = ["${aws_security_group.instance.id}"]
-#
-#
-#  user_data = <<-EOF
-#              #!/bin/bash
-#              echo "Hello, World" > index.html
-#              nohup busybox httpd -f -p "${var.server_port}" &
-#              EOF
-#  tags {
-#    Name = "sample_web"
-#  }
-#}
+// resource "aws_instance" "web" {
+//   ami = "ami-0912f71e06545ad88"
+//   instance_type = "t2.micro"
+
+//   vpc_security_group_ids = ["${aws_security_group.instance.id}"]
+
+
+//   user_data = <<-EOF
+//               #!/bin/bash
+//               echo "Hello, World" > index.html
+//               nohup busybox httpd -f -p "${var.server_port}" &
+//               EOF
+//   tags {
+//     Name = "sample_web"
+//   }
+// }
 
 resource "aws_launch_configuration" "example" {
   image_id = "ami-0912f71e06545ad88"
