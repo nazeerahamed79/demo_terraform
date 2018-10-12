@@ -1,0 +1,64 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.25">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.29.3">
+      <projectUrl>https://github.com/sksaddam007/demo_terraform.git/</projectUrl>
+      <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>user_environment</name>
+          <description>select an environment</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>dev</string>
+              <string>qa</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <hudson.triggers.SCMTrigger>
+          <spec>* * * * *</spec>
+          <ignorePostCommitHooks>false</ignorePostCommitHooks>
+        </hudson.triggers.SCMTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.57">
+    <script>node {
+        stage(&apos;checkout repo&apos;) {
+            sh &quot;&quot;&quot;
+            echo &quot;checkout scm&quot;
+            &quot;&quot;&quot;
+        }
+        stage(&apos;init&apos;) {
+            sh  &quot;&quot;&quot;
+                cd /var/lib/jenkins/Scripts/create_ec2_instance
+                terraform init
+                &quot;&quot;&quot;
+        }
+        stage(&apos;plan&apos;) {
+            sh  &quot;&quot;&quot;
+                cd /var/lib/jenkins/Scripts/create_ec2_instance
+                terraform plan -var-file=variables_${user_environment}.tfvars
+                &quot;&quot;&quot;
+        }
+        stage(&apos;apply&apos;){
+            sh &quot;&quot;&quot;
+                cd /var/lib/jenkins/Scripts/create_ec2_instance
+                terraform apply -var-file=variables_${user_environment}.tfvars -auto-approve
+                &quot;&quot;&quot;
+        }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
