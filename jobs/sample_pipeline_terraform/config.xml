@@ -1,3 +1,10 @@
+# Frontend for configure instance in gcp
+#
+# Copyright (c)
+# All rights reserved.
+#
+# Original: username <nazeer_ahamed@hotmail.com>, Aug 2018
+
 <?xml version='1.1' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@2.25">
   <actions/>
